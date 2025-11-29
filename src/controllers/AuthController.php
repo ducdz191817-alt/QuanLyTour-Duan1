@@ -89,13 +89,17 @@ class AuthController
 
         // Tạo account mới
         $newUser = Register::create([
-            'name' => $name,
+            'user_name' => $email,
+            'full_name' => $name,
             'email' => $email,
-            'password' => $password,
+            'pass_word' => $password,
+            'id_role' => 3,
+            'gender' => 0,
         ]);
 
         if (!$newUser) {
-            $errors[] = 'Không thể tạo tài khoản (lỗi hệ thống)';
+            $errors[] = 'Không thể tạo tài khoản (lỗi hệ thống). Vui lòng kiểm tra kết nối CSDL hoặc chạy `database/schema.sql` hoặc kiểm tra bảng `tb_user`.';
+            $errors[] = 'Bạn có thể chạy `tools/check_db.php` (script) để kiểm tra kết nối CSDL và bảng `tb_user`';
             view('auth.register', [
                 'title' => 'Đăng ký',
                 'errors' => $errors,
@@ -164,13 +168,14 @@ class AuthController
             return;
         }
 
-        // Build User object from database row
+        // Build User object from database row (map đúng trường của tb_user)
         $user = new User([
             'id' => $row['id'],
-            'name' => $row['name'],
+            'name' => $row['full_name'] ?? $row['user_name'] ?? '',
             'email' => $row['email'],
-            'role' => $row['role'] ?? 'huong_dan_vien',
-            'status' => $row['status'] ?? 1,
+            // Lấy role từ bảng tb_role nếu có join, còn không thì lấy id_role
+            'role' => $row['id_role'] ?? 'user',
+            'status' => 1,
         ]);
 
         // Đăng nhập thành công: lưu vào session

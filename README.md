@@ -16,11 +16,16 @@ Dự án PHP cơ bản mô phỏng cấu trúc MVC tối giản phục vụ họ
 ## Thiết lập và chạy
 
 1. Tạo database MySQL (ví dụ `website_ql_tour`) và cập nhật thông tin trong `config/config.php`.
-2. Tạo bảng `users` bằng tập lệnh SQL trong `database/schema.sql` (nếu chưa có):
+2. Tạo bảng `tb_user` (và `tb_role`) bằng tập lệnh SQL trong `database/schema.sql` (nếu chưa có):
+	- Để tạo role mặc định và user admin, chạy lệnh sau trong PowerShell:
+	```powershell
+	php tools/seed_roles.php
+	```
 
 ```sql
 -- Từ thư mục dự án, dùng MySQL client hoặc phpMyAdmin để chạy
-CREATE TABLE IF NOT EXISTS `users` (
+-- Bổ sung file `database/schema.sql` đã tạo `tb_user` và `tb_role` tương ứng:
+-- Run the script to create the tables below
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) NOT NULL,
 	`email` varchar(255) NOT NULL UNIQUE,
@@ -36,6 +41,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 	 - `http://localhost/website_quan_ly_tour/` để xem trang chào mừng.
 	 - `http://localhost/website_quan_ly_tour/register` để tạo tài khoản mới.
 	 - `http://localhost/website_quan_ly_tour/login` để đăng nhập.
+
+	### Lưu ý khi dùng database có schema khác
+	- Nếu database của bạn đã dùng bảng `tb_user` (như ER diagram đính kèm), mã đã được cập nhật để sử dụng `tb_user` và `tb_role`.
+	- Nếu bạn sử dụng bảng/tên cột khác, chỉnh sửa `src/models/Register.php` và `src/models/Login.php` để phù hợp với schema của bạn.
 
 	## Kiểm tra chức năng đăng ký/đăng nhập (curl)
 

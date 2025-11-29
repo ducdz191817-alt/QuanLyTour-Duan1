@@ -1,12 +1,21 @@
--- Schema for users table
+-- Schema for tb_user table (matching the project's ER)
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `tb_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL UNIQUE,
-  `password` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL DEFAULT 'huong_dan_vien',
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_name` varchar(225) NOT NULL,
+  `pass_word` varchar(225) NOT NULL,
+  `full_name` varchar(225) NOT NULL,
+  `email` varchar(225) NOT NULL UNIQUE,
+  `phone` varchar(225) DEFAULT NULL,
+  `id_role` int(11) DEFAULT 2,
+  `gender` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Optional: tb_role table
+CREATE TABLE IF NOT EXISTS `tb_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_role` varchar(225) NOT NULL,
+  `mo_ta` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

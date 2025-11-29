@@ -26,7 +26,7 @@ ob_start();
                     </ul>
                 </div>
                 <?php endif; ?>
-                <form action="<?= BASE_URL ?>check-register" method="post" novalidate>
+                <form action="<?= BASE_URL ?>?act=check-register" method="post" novalidate>
                     <div class="mb-3">
                         <label for="registerName" class="form-label fw-semibold">Họ và tên</label>
                         <input type="text" id="registerName" name="name" class="form-control" value="<?= htmlspecialchars($name ?? '') ?>" required />
@@ -47,7 +47,7 @@ ob_start();
                         <button type="submit" class="btn btn-primary btn-lg">Tạo tài khoản</button>
                     </div>
                     <div class="text-center small">
-                        <a href="<?= BASE_URL ?>login" class="text-decoration-none">Đã có tài khoản? Đăng nhập</a>
+                        <a href="<?= BASE_URL ?>?act=login" class="text-decoration-none">Đã có tài khoản? Đăng nhập</a>
                     </div>
                 </form>
             </div>
