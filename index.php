@@ -10,6 +10,7 @@ require_once __DIR__ . '/src/helpers/database.php'; // Helper kết nối databa
 // Nạp các file chứa model
 require_once __DIR__ . '/src/models/User.php';
 require_once __DIR__ . '/src/models/Register.php';
+require_once __DIR__ . '/src/models/Login.php';
 
 // Nạp các file chứa controller
 require_once __DIR__ . '/src/controllers/HomeController.php';
