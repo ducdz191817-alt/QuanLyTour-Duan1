@@ -24,6 +24,96 @@ class AuthController
         ]);
     }
 
+    // Hiển thị form đăng ký
+    public function register()
+    {
+        if (isLoggedIn()) {
+            header('Location: ' . BASE_URL . 'home');
+            exit;
+        }
+
+        view('auth.register', [
+            'title' => 'Đăng ký',
+        ]);
+    }
+
+    // Xử lý đăng ký (nhận dữ liệu POST)
+    public function checkRegister()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '?act=register');
+            exit;
+        }
+
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $passwordConfirm = $_POST['password_confirm'] ?? '';
+
+        $errors = [];
+        if (empty($name)) {
+            $errors[] = 'Vui lòng nhập họ và tên';
+        }
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Email không hợp lệ';
+        }
+        if (empty($password) || strlen($password) < 6) {
+            $errors[] = 'Mật khẩu phải có ít nhất 6 ký tự';
+        }
+        if ($password !== $passwordConfirm) {
+            $errors[] = 'Mật khẩu xác nhận không khớp';
+        }
+
+        // Nếu đã có lỗi thì show view lại
+        if (!empty($errors)) {
+            view('auth.register', [
+                'title' => 'Đăng ký',
+                'errors' => $errors,
+                'name' => $name,
+                'email' => $email,
+            ]);
+            return;
+        }
+
+        // Kiểm tra trùng email
+        if (Register::existsByEmail($email)) {
+            $errors[] = 'Email đã được đăng ký trước đó';
+            view('auth.register', [
+                'title' => 'Đăng ký',
+                'errors' => $errors,
+                'name' => $name,
+                'email' => $email,
+            ]);
+            return;
+        }
+
+        // Tạo account mới
+        $newUser = Register::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        if (!$newUser) {
+            $errors[] = 'Không thể tạo tài khoản (lỗi hệ thống)';
+            view('auth.register', [
+                'title' => 'Đăng ký',
+                'errors' => $errors,
+                'name' => $name,
+                'email' => $email,
+            ]);
+            return;
+        }
+
+        // Đăng nhập tự động sau khi đăng ký
+        $user = new User($newUser);
+        loginUser($user);
+
+        // Chuyển hướng về home
+        header('Location: ' . BASE_URL . 'home');
+        exit;
+    }
+
     // Xử lý đăng nhập (nhận dữ liệu từ form POST)
     public function checkLogin()
     {

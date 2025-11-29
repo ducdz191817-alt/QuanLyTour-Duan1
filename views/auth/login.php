@@ -89,11 +89,14 @@ ob_start();
                     </div>
                 </form>
                 <div class="login-divider"></div>
-                <div class="text-center">
+                <div class="text-center mb-2">
                     <a href="<?= BASE_URL ?>" class="text-decoration-none text-fpt-orange fw-semibold">
                         <i class="bi bi-arrow-left me-2"></i>
                         Quay về trang chủ
                     </a>
+                </div>
+                <div class="text-center small">
+                    <a href="<?= BASE_URL ?>register" class="text-decoration-none">Chưa có tài khoản? Đăng ký</a>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ require_once __DIR__ . '/src/helpers/database.php'; // Helper kết nối databa
 
 // Nạp các file chứa model
 require_once __DIR__ . '/src/models/User.php';
+require_once __DIR__ . '/src/models/Register.php';
 
 // Nạp các file chứa controller
 require_once __DIR__ . '/src/controllers/HomeController.php';
@@ -32,6 +33,8 @@ match ($act) {
     // Đường dẫn đăng nhập, đăng xuất
     'login' => $authController->login(),
     'check-login' => $authController->checkLogin(),
+    'register' => $authController->register(),
+    'check-register' => $authController->checkRegister(),
     'logout' => $authController->logout(),
 
     // Đường dẫn không tồn tại
